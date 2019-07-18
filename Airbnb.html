@@ -13139,30 +13139,29 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[303]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="k">import</span> <span class="n">RFECV</span><span class="p">,</span> <span class="n">f_classif</span><span class="p">,</span> <span class="n">SelectPercentile</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">MultiLabelBinarizer</span><span class="p">,</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">category_encoders</span> <span class="k">import</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="k">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="k">import</span> <span class="n">IterativeImputer</span>
+<span class="kn">from</span> <span class="nn">sklearn.experimental</span> <span class="k">import</span> <span class="n">enable_iterative_imputer</span>
+
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">plotly_express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ttest_ind</span><span class="p">,</span><span class="n">t</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">ttest_ind</span><span class="p">,</span> <span class="n">t</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">collections</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">plotly_express</span> <span class="k">as</span> <span class="nn">px</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
-
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">MultiLabelBinarizer</span><span class="p">,</span><span class="n">StandardScaler</span>
-<span class="kn">from</span> <span class="nn">sklearn.experimental</span> <span class="k">import</span> <span class="n">enable_iterative_imputer</span>
-<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="k">import</span> <span class="n">IterativeImputer</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="k">import</span> <span class="n">RFECV</span><span class="p">,</span><span class="n">f_classif</span><span class="p">,</span><span class="n">SelectPercentile</span>
-<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="k">import</span> <span class="n">PCA</span>
-
-<span class="kn">from</span> <span class="nn">category_encoders</span> <span class="k">import</span> <span class="n">OneHotEncoder</span>
 </pre></div>
 
     </div>
@@ -13175,39 +13174,39 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[376]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_t_dist_hyp</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">t_stat</span><span class="p">,</span><span class="n">p_val</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_t_dist_hyp</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    After t-test, plot t-statistic and p-value via Plotly Express.</span>
 <span class="sd">    Depenencies: scipy.stat.t | plotly_express as px | plotly.graph_objects as go</span>
-<span class="sd">    </span>
+
 <span class="sd">    Inputs</span>
 <span class="sd">    ------</span>
 <span class="sd">    df: degrees of freedom</span>
 <span class="sd">    t_stat: t-statistic</span>
 <span class="sd">    p_val: p-value</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    ------</span>
 <span class="sd">    Plotly Express Figure</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rv</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
-    
+
     <span class="n">x_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">rv</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.00001</span><span class="p">),</span> <span class="n">rv</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.99999</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="n">y_t</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span> 
-    <span class="n">t_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x_t&#39;</span><span class="p">:</span><span class="n">x_t</span><span class="p">,</span><span class="s1">&#39;y_t&#39;</span><span class="p">:</span><span class="n">y_t</span><span class="p">})</span>
-    
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_df</span><span class="p">,</span><span class="s1">&#39;x_t&#39;</span><span class="p">,</span><span class="s1">&#39;y_t&#39;</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-            <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x_t&#39;</span><span class="p">:</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;y_t&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">},)</span>
+    <span class="n">y_t</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span>
+    <span class="n">t_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x_t&#39;</span><span class="p">:</span> <span class="n">x_t</span><span class="p">,</span> <span class="s1">&#39;y_t&#39;</span><span class="p">:</span> <span class="n">y_t</span><span class="p">})</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">t_df</span><span class="p">,</span> <span class="s1">&#39;x_t&#39;</span><span class="p">,</span> <span class="s1">&#39;y_t&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                  <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x_t&#39;</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;y_t&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;top center&#39;</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">layout</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Hypothesis Test Results&#39;</span><span class="p">,</span><span class="n">annotations</span><span class="o">=</span><span class="p">[{</span>
-      <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">t_stat</span><span class="p">,</span> 
-      <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">t_stat</span><span class="p">),</span>  
-      <span class="s1">&#39;font&#39;</span><span class="p">:{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span><span class="s1">&#39;Arial&#39;</span><span class="p">,</span><span class="s1">&#39;size&#39;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s1">&#39;black&#39;</span><span class="p">},</span> 
-      <span class="s2">&quot;showarrow&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> 
-      <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;P-value&lt;br&gt;</span><span class="si">{p_val:.2e}</span><span class="s1">&#39;</span><span class="p">,</span>
-      <span class="s2">&quot;arrowhead&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-      <span class="s2">&quot;ay&quot;</span><span class="p">:</span><span class="o">-</span><span class="mi">40</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Hypothesis Test Results&#39;</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="p">[{</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">t_stat</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">t_stat</span><span class="p">),</span>
+        <span class="s1">&#39;font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;Arial&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">},</span>
+        <span class="s2">&quot;showarrow&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;P-value&lt;br&gt;</span><span class="si">{p_val:.2e}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;arrowhead&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+        <span class="s2">&quot;ay&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">40</span>
     <span class="p">}]))</span>
     <span class="k">return</span> <span class="n">fig</span>
 </pre></div>
@@ -13864,10 +13863,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">drop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;listing_url&#39;</span><span class="p">,</span><span class="s1">&#39;scrape_id&#39;</span><span class="p">,</span><span class="s1">&#39;last_scraped&#39;</span><span class="p">,</span><span class="s1">&#39;summary&#39;</span><span class="p">,</span><span class="s1">&#39;space&#39;</span><span class="p">,</span><span class="s1">&#39;description&#39;</span><span class="p">,</span><span class="s1">&#39;neighborhood_overview&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;notes&#39;</span><span class="p">,</span><span class="s1">&#39;transit&#39;</span><span class="p">,</span><span class="s1">&#39;access&#39;</span><span class="p">,</span><span class="s1">&#39;interaction&#39;</span><span class="p">,</span><span class="s1">&#39;house_rules&#39;</span><span class="p">,</span><span class="s1">&#39;thumbnail_url&#39;</span><span class="p">,</span><span class="s1">&#39;medium_url&#39;</span><span class="p">,</span><span class="s1">&#39;picture_url&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;xl_picture_url&#39;</span><span class="p">,</span><span class="s1">&#39;host_id&#39;</span><span class="p">,</span><span class="s1">&#39;host_url&#39;</span><span class="p">,</span><span class="s1">&#39;host_about&#39;</span><span class="p">,</span><span class="s1">&#39;host_thumbnail_url&#39;</span><span class="p">,</span><span class="s1">&#39;host_picture_url&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;calendar_updated&#39;</span><span class="p">,</span><span class="s1">&#39;calendar_last_scraped&#39;</span><span class="p">,</span><span class="s1">&#39;license&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;host_name&#39;</span><span class="p">,</span><span class="s1">&#39;zipcode&#39;</span><span class="p">,</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="c1">#,&#39;latitude&#39;,&#39;longitude&#39;]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">drop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;listing_url&#39;</span><span class="p">,</span> <span class="s1">&#39;scrape_id&#39;</span><span class="p">,</span> <span class="s1">&#39;last_scraped&#39;</span><span class="p">,</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="s1">&#39;space&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;neighborhood_overview&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;transit&#39;</span><span class="p">,</span> <span class="s1">&#39;access&#39;</span><span class="p">,</span> <span class="s1">&#39;interaction&#39;</span><span class="p">,</span> <span class="s1">&#39;house_rules&#39;</span><span class="p">,</span> <span class="s1">&#39;thumbnail_url&#39;</span><span class="p">,</span> <span class="s1">&#39;medium_url&#39;</span><span class="p">,</span> <span class="s1">&#39;picture_url&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xl_picture_url&#39;</span><span class="p">,</span> <span class="s1">&#39;host_id&#39;</span><span class="p">,</span> <span class="s1">&#39;host_url&#39;</span><span class="p">,</span> <span class="s1">&#39;host_about&#39;</span><span class="p">,</span> <span class="s1">&#39;host_thumbnail_url&#39;</span><span class="p">,</span> <span class="s1">&#39;host_picture_url&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;calendar_updated&#39;</span><span class="p">,</span> <span class="s1">&#39;calendar_last_scraped&#39;</span><span class="p">,</span> <span class="s1">&#39;license&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;host_name&#39;</span><span class="p">,</span> <span class="s1">&#39;zipcode&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">]</span>  
 </pre></div>
 
     </div>
@@ -13881,9 +13880,9 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Dropping all the columns I don&#39;t want</span>
-<span class="n">sf</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ny</span> <span class="o">=</span> <span class="n">ny</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">aus</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sf</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ny</span> <span class="o">=</span> <span class="n">ny</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">aus</span> <span class="o">=</span> <span class="n">aus</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13896,7 +13895,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sf</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">aus</span><span class="p">],</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sf</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">aus</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14059,8 +14058,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span><span class="s1">&#39;bool&#39;</span><span class="p">])</span>
-<span class="n">cat_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span><span class="s1">&#39;bool&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">])</span>
+<span class="n">cat_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
     </div>
@@ -14073,8 +14072,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;float&#39;</span><span class="p">])</span>
-<span class="n">num_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;float&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">])</span>
+<span class="n">num_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
     </div>
@@ -14958,9 +14957,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_to_num</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;host_response_rate&#39;</span><span class="p">,</span><span class="s1">&#39;price&#39;</span><span class="p">,</span><span class="s1">&#39;weekly_price&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;monthly_price&#39;</span><span class="p">,</span><span class="s1">&#39;security_deposit&#39;</span><span class="p">,</span><span class="s1">&#39;cleaning_fee&#39;</span><span class="p">,</span><span class="s1">&#39;extra_people&#39;</span><span class="p">]</span>
-<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">,</span><span class="s1">&#39;weekly_price&#39;</span><span class="p">,</span><span class="s1">&#39;monthly_price&#39;</span><span class="p">,</span><span class="s1">&#39;security_deposit&#39;</span><span class="p">,</span><span class="s1">&#39;cleaning_fee&#39;</span><span class="p">,</span><span class="s1">&#39;extra_people&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_to_num</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;host_response_rate&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;weekly_price&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;monthly_price&#39;</span><span class="p">,</span> <span class="s1">&#39;security_deposit&#39;</span><span class="p">,</span> <span class="s1">&#39;cleaning_fee&#39;</span><span class="p">,</span> <span class="s1">&#39;extra_people&#39;</span><span class="p">]</span>
+<span class="n">prices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;weekly_price&#39;</span><span class="p">,</span> <span class="s1">&#39;monthly_price&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;security_deposit&#39;</span><span class="p">,</span> <span class="s1">&#39;cleaning_fee&#39;</span><span class="p">,</span> <span class="s1">&#39;extra_people&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -15057,8 +15057,11 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Converting the response rate to integers</span>
-<span class="n">repl</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">cat_to_num_df</span><span class="p">[</span><span class="s1">&#39;host_response_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_to_num_df</span><span class="p">[</span><span class="s1">&#39;host_response_rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d+)%&#39;</span><span class="p">,</span><span class="n">repl</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">repl</span><span class="p">(</span><span class="n">m</span><span class="p">):</span> <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">cat_to_num_df</span><span class="p">[</span><span class="s1">&#39;host_response_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_to_num_df</span><span class="p">[</span><span class="s1">&#39;host_response_rate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;(\d+)%&#39;</span><span class="p">,</span> <span class="n">repl</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15096,7 +15099,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Removing commas and dollar signs, then converting to float</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">prices</span><span class="p">:</span>
-    <span class="n">cat_to_num_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">=</span><span class="n">cat_to_num_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">cat_to_num_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_to_num_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">cat_to_num_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_to_num_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 </pre></div>
 
@@ -15319,7 +15323,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">num_df</span><span class="p">,</span><span class="n">cat_to_num_df</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">num_df</span><span class="p">,</span> <span class="n">cat_to_num_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15345,7 +15349,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cat_to_num</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cat_to_num</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">cat_cols</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 
@@ -15368,7 +15372,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bi_cols</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">bi_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 </pre></div>
 
@@ -15501,7 +15505,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">bi_cols</span><span class="p">:</span>
-    <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+    <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 </pre></div>
 
     </div>
@@ -15536,7 +15540,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">redundant_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;city&#39;</span><span class="p">,</span><span class="s1">&#39;market&#39;</span><span class="p">,</span><span class="s1">&#39;jurisdiction_names&#39;</span><span class="p">,</span><span class="s1">&#39;host_location&#39;</span><span class="p">,</span><span class="s1">&#39;street&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">redundant_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="s1">&#39;market&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;jurisdiction_names&#39;</span><span class="p">,</span> <span class="s1">&#39;host_location&#39;</span><span class="p">,</span> <span class="s1">&#39;street&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -15564,7 +15569,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">redundant_cols</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">redundant_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15787,8 +15792,10 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">striplist</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
     <span class="k">return</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span><span class="p">])</span>
-<span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span>
-                <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">striplist</span><span class="p">)</span>
+
+
+<span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span>
+                                                                                                                  <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">striplist</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15801,8 +15808,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;amenities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;amenities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span>
-                             <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">striplist</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;amenities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;amenities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span>
+                                                                           <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">striplist</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15824,7 +15831,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mlb</span> <span class="o">=</span> <span class="n">MultiLabelBinarizer</span><span class="p">()</span>
-<span class="n">amenities_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mlb</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;amenities&#39;</span><span class="p">]),</span><span class="n">columns</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">cat_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">amenities_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mlb</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span>
+    <span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;amenities&#39;</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">cat_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15838,7 +15846,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mlb</span> <span class="o">=</span> <span class="n">MultiLabelBinarizer</span><span class="p">()</span>
-<span class="n">host_verif_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mlb</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">]),</span><span class="n">columns</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">cat_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">host_verif_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mlb</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span>
+    <span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">cat_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15851,8 +15860,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">host_verif_df</span> <span class="o">=</span> <span class="n">host_verif_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
-<span class="n">amenities_df</span> <span class="o">=</span> <span class="n">amenities_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">host_verif_df</span> <span class="o">=</span> <span class="n">host_verif_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
+<span class="n">amenities_df</span> <span class="o">=</span> <span class="n">amenities_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -15865,7 +15874,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">,</span><span class="s1">&#39;amenities&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;host_verifications&#39;</span><span class="p">,</span> <span class="s1">&#39;amenities&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15886,7 +15895,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cat_df</span><span class="p">,</span><span class="n">amenities_df</span><span class="p">,</span><span class="n">host_verif_df</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cat_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cat_df</span><span class="p">,</span> <span class="n">amenities_df</span><span class="p">,</span> <span class="n">host_verif_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -15940,7 +15949,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dt_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;host_since&#39;</span><span class="p">,</span><span class="s1">&#39;first_review&#39;</span><span class="p">,</span><span class="s1">&#39;last_review&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dt_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;host_since&#39;</span><span class="p">,</span> <span class="s1">&#39;first_review&#39;</span><span class="p">,</span> <span class="s1">&#39;last_review&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -16019,7 +16028,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Converting to datetime data type</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">dt_cols</span><span class="p">:</span>
-    <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span><span class="n">infer_datetime_format</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">cat_df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">infer_datetime_format</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16048,9 +16057,11 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Creating a discrete feature based on how recent the last review was</span>
-<span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">365</span><span class="p">,</span><span class="mi">730</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;last 90 days&#39;</span><span class="p">,</span><span class="s1">&#39;last 180 days&#39;</span><span class="p">,</span><span class="s1">&#39;last year&#39;</span><span class="p">,</span> <span class="s1">&#39;last 2 years&#39;</span><span class="p">,</span> <span class="s1">&#39;more than 2 years&#39;</span><span class="p">]</span>
-<span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;last_review_discrete&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">num_df</span><span class="p">[</span><span class="s1">&#39;last_review_days&#39;</span><span class="p">],</span><span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">365</span><span class="p">,</span> <span class="mi">730</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;last 90 days&#39;</span><span class="p">,</span> <span class="s1">&#39;last 180 days&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;last year&#39;</span><span class="p">,</span> <span class="s1">&#39;last 2 years&#39;</span><span class="p">,</span> <span class="s1">&#39;more than 2 years&#39;</span><span class="p">]</span>
+<span class="n">cat_df</span><span class="p">[</span><span class="s1">&#39;last_review_discrete&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span>
+    <span class="n">num_df</span><span class="p">[</span><span class="s1">&#39;last_review_days&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16064,7 +16075,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Dropping the datetime columns since because I don&#39;t need them</span>
-<span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dt_cols</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cat_df</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dt_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">cat_cols</span> <span class="o">=</span> <span class="n">cat_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
 <span class="n">num_cols</span> <span class="o">=</span> <span class="n">num_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
@@ -16133,7 +16144,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">num_df</span><span class="p">,</span><span class="n">cat_df</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">num_df</span><span class="p">,</span> <span class="n">cat_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16433,7 +16444,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;host_total_listings_count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;host_total_listings_count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16594,8 +16606,8 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rating_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_cleanliness&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_checkin&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;review_scores_communication&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_location&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_value&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rating_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_cleanliness&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_checkin&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;review_scores_communication&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_location&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_value&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -16634,7 +16646,7 @@ See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stabl
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">eda</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;cat_num_units&#39;</span><span class="p">)[</span><span class="n">rating_cols</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">style</span><span class="o">.</span> \
-                                <span class="n">apply</span><span class="p">(</span><span class="n">highlight_max</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">highlight_min</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">apply</span><span class="p">(</span><span class="n">highlight_max</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">highlight_min</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16832,10 +16844,10 @@ $\alpha = 0.05$</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Creating sampling arrays</span>
-<span class="n">one_unit_samp</span> <span class="o">=</span> <span class="n">eda</span><span class="p">[</span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;cat_num_units&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">]</span>
-<span class="n">all_others_samp</span> <span class="o">=</span> <span class="n">eda</span><span class="p">[</span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;cat_num_units&#39;</span><span class="p">]</span><span class="o">!=</span><span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">]</span>
+<span class="n">one_unit_samp</span> <span class="o">=</span> <span class="n">eda</span><span class="p">[</span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;cat_num_units&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">]</span>
+<span class="n">all_others_samp</span> <span class="o">=</span> <span class="n">eda</span><span class="p">[</span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;cat_num_units&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;1&#39;</span><span class="p">][</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">]</span>
 
-<span class="c1">#Calculating Variance</span>
+<span class="c1"># Calculating Variance</span>
 <span class="n">one_unit_var</span> <span class="o">=</span> <span class="n">one_unit_samp</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
 <span class="n">all_others_var</span> <span class="o">=</span> <span class="n">all_others_samp</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
 </pre></div>
@@ -16884,7 +16896,8 @@ $\alpha = 0.05$</p>
 <div class="prompt input_prompt">In&nbsp;[381]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">ttest_ind</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">one_unit_samp</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="n">all_others_samp</span><span class="p">,</span><span class="n">equal_var</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;omit&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">ttest_ind</span><span class="p">(</span>
+    <span class="n">a</span><span class="o">=</span><span class="n">one_unit_samp</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">all_others_samp</span><span class="p">,</span> <span class="n">equal_var</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nan_policy</span><span class="o">=</span><span class="s1">&#39;omit&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16898,8 +16911,8 @@ $\alpha = 0.05$</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Plotting a T-distribution with the calculated t-statistic annotated</span>
-<span class="n">df</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">one_unit_samp</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">all_others_samp</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">plot_t_dist_hyp</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">t_stat</span><span class="p">,</span><span class="n">p_val</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">one_unit_samp</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_others_samp</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plot_t_dist_hyp</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16993,7 +17006,7 @@ ${p_{value}} \approx 0$</p>
 <div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eda</span><span class="p">[[</span><span class="s1">&#39;last_review_discrete&#39;</span><span class="p">,</span><span class="s1">&#39;last_review_days&#39;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eda</span><span class="p">[[</span><span class="s1">&#39;last_review_discrete&#39;</span><span class="p">,</span> <span class="s1">&#39;last_review_days&#39;</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -17586,7 +17599,7 @@ ${p_{value}} \approx 0$</p>
 <div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eda</span><span class="p">[[</span><span class="s1">&#39;property_type&#39;</span><span class="p">,</span><span class="s1">&#39;room_type&#39;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eda</span><span class="p">[[</span><span class="s1">&#39;property_type&#39;</span><span class="p">,</span> <span class="s1">&#39;room_type&#39;</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -18320,9 +18333,9 @@ Name: price, Length: 68167, dtype: float64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Plotting facet grid to compare box plots for each kind of room type. Also filtered out outlier prices (&gt;500)</span>
-<span class="n">fgrid</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">eda</span><span class="p">[</span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">&lt;=</span><span class="mi">500</span><span class="p">],</span><span class="n">col</span><span class="o">=</span><span class="s1">&#39;room_type&#39;</span><span class="p">,</span><span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,)</span>
-<span class="n">fgrid</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">,</span><span class="s1">&#39;last_review_discrete&#39;</span><span class="p">,</span><span class="s1">&#39;price&#39;</span><span class="p">,</span><span class="s1">&#39;host_is_superhost&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fgrid</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">:</span> 
+<span class="n">fgrid</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">eda</span><span class="p">[</span><span class="n">eda</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">500</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;room_type&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">5</span><span class="p">,)</span>
+<span class="n">fgrid</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">,</span> <span class="s1">&#39;last_review_discrete&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;host_is_superhost&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">fgrid</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">:</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
@@ -18416,7 +18429,7 @@ Name: price, Length: 68167, dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;last_review_discrete&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;last_review_discrete&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -18439,7 +18452,7 @@ Name: price, Length: 68167, dtype: float64</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calculating proportion of NA values in each column</span>
 <span class="n">prop_na</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">cleaned_df</span><span class="p">)</span>
 <span class="n">prop_na_05</span> <span class="o">=</span> <span class="n">prop_na</span><span class="p">[</span><span class="n">prop_na</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">05</span><span class="p">]</span>
-<span class="n">prop_na_05</span> <span class="o">=</span> <span class="n">prop_na_05</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">prop_na_05</span> <span class="o">=</span> <span class="n">prop_na_05</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -18460,16 +18473,16 @@ Name: price, Length: 68167, dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 
-<span class="n">barh</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">prop_na_05</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">],</span><span class="n">prop_na_05</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.85</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">barh</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">prop_na_05</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">],</span> <span class="n">prop_na_05</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="n">barh</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;darkred&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Proportion of NA Values&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.01</span><span class="p">,</span><span class="o">.</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">))</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
@@ -18506,9 +18519,9 @@ Name: price, Length: 68167, dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">drop_na_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;host_acceptance_rate&#39;</span><span class="p">,</span><span class="s1">&#39;square_feet&#39;</span><span class="p">,</span><span class="s1">&#39;monthly_price&#39;</span><span class="p">,</span><span class="s1">&#39;weekly_price&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;security_deposit&#39;</span><span class="p">,</span><span class="s1">&#39;host_response_rate&#39;</span><span class="p">,</span><span class="s1">&#39;host_response_time&#39;</span><span class="p">]</span>
-<span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_na_cols</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">drop_na_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;host_acceptance_rate&#39;</span><span class="p">,</span> <span class="s1">&#39;square_feet&#39;</span><span class="p">,</span> <span class="s1">&#39;monthly_price&#39;</span><span class="p">,</span> <span class="s1">&#39;weekly_price&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;security_deposit&#39;</span><span class="p">,</span> <span class="s1">&#39;host_response_rate&#39;</span><span class="p">,</span> <span class="s1">&#39;host_response_time&#39;</span><span class="p">]</span>
+<span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_na_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -18609,8 +18622,8 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;sum_na_row&#39;</span><span class="p">],</span><span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;sum_na_row&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
@@ -18654,9 +18667,9 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">temp</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;sum_na_row&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">na_cols</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;sum_na_row&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">][</span><span class="n">na_cols</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">temp</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;sum_na_row&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">na_cols</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;sum_na_row&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">][</span><span class="n">na_cols</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -19294,9 +19307,9 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">review_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_accuracy&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_cleanliness&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;review_scores_checkin&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_communication&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_location&#39;</span><span class="p">,</span>
-              <span class="s1">&#39;review_scores_value&#39;</span><span class="p">,</span><span class="s1">&#39;reviews_per_month&#39;</span><span class="p">,</span><span class="s1">&#39;first_review_days&#39;</span><span class="p">,</span><span class="s1">&#39;last_review_days&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">review_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_cleanliness&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;review_scores_checkin&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_communication&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_location&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;review_scores_value&#39;</span><span class="p">,</span> <span class="s1">&#39;reviews_per_month&#39;</span><span class="p">,</span> <span class="s1">&#39;first_review_days&#39;</span><span class="p">,</span> <span class="s1">&#39;last_review_days&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -19439,7 +19452,7 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span><span class="p">[</span><span class="n">review_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[</span><span class="n">review_cols</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span><span class="p">[</span><span class="n">review_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[</span><span class="n">review_cols</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -19460,7 +19473,8 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">na_neigh</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[(</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;host_neighbourhood&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())</span> <span class="o">|</span> <span class="p">(</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())]</span><span class="o">.</span><span class="n">index</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">na_neigh</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[(</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;host_neighbourhood&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())</span> <span class="o">|</span> <span class="p">(</span>
+    <span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())]</span><span class="o">.</span><span class="n">index</span>
 </pre></div>
 
     </div>
@@ -19473,7 +19487,8 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Dropping </span><span class="si">{na_neigh.shape[0]}</span><span class="s1"> rows due to missing values in neighborhood columns.&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="n">f</span><span class="s1">&#39;Dropping </span><span class="si">{na_neigh.shape[0]}</span><span class="s1"> rows due to missing values in neighborhood columns.&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -19525,7 +19540,8 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()][[</span><span class="s1">&#39;state&#39;</span><span class="p">,</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">,</span><span class="s1">&#39;smart_location&#39;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()][[</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;neighbourhood&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;smart_location&#39;</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -19615,8 +19631,10 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">update_state</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()][[</span><span class="s1">&#39;state&#39;</span><span class="p">,</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">,</span><span class="s1">&#39;smart_location&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">index</span>
-<span class="n">cleaned_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">update_state</span><span class="p">[:</span><span class="mi">3</span><span class="p">]][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">update_state</span><span class="p">[:</span><span class="mi">3</span><span class="p">]][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;NY&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">update_state</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[</span><span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span>
+<span class="p">)][[</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="s1">&#39;neighbourhood&#39;</span><span class="p">,</span> <span class="s1">&#39;smart_location&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">cleaned_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">update_state</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+               <span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">update_state</span><span class="p">[:</span><span class="mi">3</span><span class="p">]][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;NY&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -19630,7 +19648,7 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">update_state</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>
-    <span class="n">cleaned_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;state&#39;</span><span class="p">,]</span> <span class="o">=</span> <span class="s1">&#39;NY&#39;</span>
+    <span class="n">cleaned_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;NY&#39;</span>
 </pre></div>
 
     </div>
@@ -19643,7 +19661,7 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">update_state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="s1">&#39;state&#39;</span><span class="p">,]</span> <span class="o">=</span> <span class="s1">&#39;TX&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">update_state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TX&#39;</span>
 </pre></div>
 
     </div>
@@ -19684,16 +19702,16 @@ Name: neighbourhood_group_cleansed, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">bbb</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">col</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">cleaned_df</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">col</span><span class="o">+</span><span class="s1">&#39; Distribution&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    
+
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 
@@ -20000,7 +20018,7 @@ dtype: int64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">features_for_imputer</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accommodates&#39;</span><span class="p">,</span> <span class="s1">&#39;bathrooms&#39;</span><span class="p">,</span> <span class="s1">&#39;bedrooms&#39;</span><span class="p">,</span> <span class="s1">&#39;beds&#39;</span><span class="p">,</span>
-                   <span class="s1">&#39;guests_included&#39;</span><span class="p">,</span><span class="s1">&#39;review_scores_rating&#39;</span><span class="p">,</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;cleaning_fee&#39;</span><span class="p">]</span>
+                        <span class="s1">&#39;guests_included&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_rating&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;cleaning_fee&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -20040,7 +20058,7 @@ dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">std_df_impute</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">std_df_impute</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">df_impute</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">std_df_impute</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">std_df_impute</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">df_impute</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -20147,7 +20165,7 @@ dtype: int64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Calling the imputer on the subset of our DataFrame</span>
-<span class="n">imputed_std_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rescaled_data</span><span class="p">,</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_impute</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">imputed_std_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rescaled_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">df_impute</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 <span class="n">imputed_std_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -20308,7 +20326,7 @@ dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cleaned_df</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -20384,7 +20402,7 @@ dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;price&#39;</span><span class="p">,</span><span class="s1">&#39;sum_na_row&#39;</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;sum_na_row&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">cleaned_df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span>
 </pre></div>
 
@@ -20483,7 +20501,8 @@ cancellation_policy: 6
 <div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="p">[[</span><span class="s1">&#39;host_neighbourhood&#39;</span><span class="p">,</span><span class="s1">&#39;neighbourhood&#39;</span><span class="p">,</span><span class="s1">&#39;neighbourhood_cleansed&#39;</span><span class="p">,</span><span class="s1">&#39;smart_location&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="p">[[</span><span class="s1">&#39;host_neighbourhood&#39;</span><span class="p">,</span> <span class="s1">&#39;neighbourhood&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;neighbourhood_cleansed&#39;</span><span class="p">,</span> <span class="s1">&#39;smart_location&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -20724,7 +20743,7 @@ Name: property_type, dtype: int64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Dropping the columns</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -20942,7 +20961,8 @@ Name: property_type, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[108]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ohe</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span><span class="n">use_cat_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">handle_missing</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ohe</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">use_cat_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">return_df</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">handle_missing</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -21333,7 +21353,7 @@ Name: property_type, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[117]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fvalue_selector</span> <span class="o">=</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">f_classif</span><span class="p">,</span><span class="n">percentile</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fvalue_selector</span> <span class="o">=</span> <span class="n">SelectPercentile</span><span class="p">(</span><span class="n">f_classif</span><span class="p">,</span> <span class="n">percentile</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -21522,13 +21542,13 @@ Name: property_type, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[125]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_components</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">105</span><span class="p">,</span><span class="mi">110</span><span class="p">,</span><span class="mi">115</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">125</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_components</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">115</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">125</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">n_components</span><span class="p">:</span>
     <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="n">X_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_best</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="o">.</span><span class="mi">85</span><span class="p">:</span>
         <span class="k">break</span>
-        
+
 <span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">n_components</span><span class="p">)</span>
 </pre></div>
@@ -21565,14 +21585,14 @@ Name: property_type, dtype: int64</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">n_components</span><span class="p">)</span>
 <span class="n">values</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 <span class="n">cumvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">ticks</span><span class="p">,</span><span class="n">values</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ticks</span><span class="p">,</span><span class="n">cumvals</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">ticks</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ticks</span><span class="p">,</span> <span class="n">cumvals</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;No. Principal Components&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Variance Explained (%)&quot;</span><span class="p">)</span>
@@ -21642,7 +21662,8 @@ Name: property_type, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[128]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rfecv_ols</span> <span class="o">=</span> <span class="n">RFECV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">ols</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rfecv_ols</span> <span class="o">=</span> <span class="n">RFECV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">ols</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -21655,7 +21676,7 @@ Name: property_type, dtype: int64</pre>
 <div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">time</span> rfecv_ols.fit(X_pca,y)
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">time</span> rfecv_ols.fit(X_pca, y)
 </pre></div>
 
     </div>
@@ -21781,7 +21802,7 @@ Principal Component 20
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Respective Linear Regression Princpal Component Coefficients...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">comp</span><span class="p">,</span><span class="n">coef</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pc_kept</span><span class="p">,</span><span class="n">rfecv_ols</span><span class="o">.</span><span class="n">estimator_</span><span class="o">.</span><span class="n">coef_</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">comp</span><span class="p">,</span> <span class="n">coef</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pc_kept</span><span class="p">,</span> <span class="n">rfecv_ols</span><span class="o">.</span><span class="n">estimator_</span><span class="o">.</span><span class="n">coef_</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;PC</span><span class="si">{comp}</span><span class="s1">: </span><span class="si">{coef:.5f}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -21855,7 +21876,7 @@ PC20: 27.11547
 <div class="prompt input_prompt">In&nbsp;[133]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rf_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_best</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rf_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_best</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -21897,7 +21918,7 @@ PC20: 27.11547
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">component_names</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rf_reg</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">):</span>
-    <span class="n">comp_name</span> <span class="o">=</span> <span class="s1">&#39;Comp &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">comp_name</span> <span class="o">=</span> <span class="s1">&#39;Comp &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">component_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp_name</span><span class="p">)</span>
     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
@@ -21915,7 +21936,7 @@ PC20: 27.11547
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">importances</span> <span class="o">=</span> <span class="n">rf_reg</span><span class="o">.</span><span class="n">feature_importances_</span>
 
 <span class="c1"># Grabbing the top 15 indices that would sort the feature importances according to their importance rating</span>
-<span class="n">indices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
 
 <span class="c1"># Grabbing an array of all the feature names</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">component_names</span><span class="p">)</span>
@@ -21924,7 +21945,7 @@ PC20: 27.11547
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Feature importances&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)),</span> <span class="n">importances</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span>
-       <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)),</span> <span class="n">features</span><span class="p">[</span><span class="n">indices</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -22042,35 +22063,37 @@ PC20: 27.11547
 <div class="prompt input_prompt">In&nbsp;[254]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span><span class="n">feat_names</span><span class="p">,</span><span class="n">dim</span><span class="p">,</span><span class="n">features</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">feat_names</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    For a given fitted PCA object, the given component, and a given number of features, this plots</span>
 <span class="sd">    the scaled coefficients for this particular component.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Inputs:</span>
 <span class="sd">    pca: PCA object</span>
 <span class="sd">    feat_names: feature names from original pre-PCA dataset</span>
 <span class="sd">    dim: component that you want to inspect</span>
 <span class="sd">    features: number of most positive and most negative features to display</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">names_to_weights</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span><span class="n">feat_names</span><span class="p">),</span><span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">names_to_weights</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="p">[</span><span class="n">dim</span><span class="p">],</span> <span class="n">feat_names</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">names_to_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">names_to_weights</span><span class="p">)</span>
 
-    <span class="n">nm_to_wt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">names_to_weights</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span><span class="s1">&#39;feature&#39;</span><span class="p">])</span>
-    <span class="n">nm_to_wt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">nm_to_wt_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">features</span><span class="p">),</span><span class="n">nm_to_wt_df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="n">features</span><span class="p">)])</span>
+    <span class="n">nm_to_wt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">names_to_weights</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="s1">&#39;feature&#39;</span><span class="p">])</span>
+    <span class="n">nm_to_wt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">nm_to_wt_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">features</span><span class="p">),</span> <span class="n">nm_to_wt_df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="n">features</span><span class="p">)])</span>
     <span class="n">nm_to_wt_df</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nm_to_wt_df</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-    
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">nm_to_wt_df</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;feature&#39;</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span>
-           <span class="n">color</span><span class="o">=</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span><span class="n">color_continuous_scale</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">sequential</span><span class="o">.</span><span class="n">Sunsetdark</span><span class="p">,</span>
-           <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;coef&#39;</span><span class="p">:</span> <span class="s1">&#39;Coefficients&#39;</span><span class="p">,</span><span class="s1">&#39;feature&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">},</span>
-           <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span><span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Principal Component &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">dim</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; Coefficients&#39;</span><span class="p">,</span>
-           <span class="n">hover_name</span><span class="o">=</span><span class="s1">&#39;feature&#39;</span><span class="p">)</span>
-    
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">nm_to_wt_df</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;feature&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="s1">&#39;coef&#39;</span><span class="p">,</span> <span class="n">color_continuous_scale</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">sequential</span><span class="o">.</span><span class="n">Sunsetdark</span><span class="p">,</span>
+                 <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;coef&#39;</span><span class="p">:</span> <span class="s1">&#39;Coefficients&#39;</span><span class="p">,</span> <span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
+                 <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Principal Component &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">dim</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; Coefficients&#39;</span><span class="p">,</span>
+                 <span class="n">hover_name</span><span class="o">=</span><span class="s1">&#39;feature&#39;</span><span class="p">)</span>
+
     <span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">tickfont</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">fontsize</span><span class="p">))</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">tickfont</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">fontsize</span><span class="p">))</span>
-                    
+
     <span class="k">return</span> <span class="n">fig</span>
 </pre></div>
 
@@ -22084,19 +22107,19 @@ PC20: 27.11547
 <div class="prompt input_prompt">In&nbsp;[291]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_index_where_value</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_index_where_value</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns index of array where that array&#39;s value equals input value.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Inputs...</span>
 <span class="sd">    arr: input array to search</span>
 <span class="sd">    value: value to search</span>
-<span class="sd">    </span>
+
 <span class="sd">    Returns: Index Position or None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span> 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr</span><span class="o">==</span><span class="n">value</span><span class="p">,</span><span class="n">arr</span><span class="p">,</span><span class="kc">None</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span> 
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr</span> <span class="o">==</span> <span class="n">value</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="kc">None</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
@@ -22117,7 +22140,7 @@ PC20: 27.11547
 <div class="prompt input_prompt">In&nbsp;[255]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig_3</span> <span class="o">=</span> <span class="n">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span><span class="n">f_val_features</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig_3</span> <span class="o">=</span> <span class="n">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">f_val_features</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="n">fig_3</span>
 </pre></div>
 
@@ -22208,7 +22231,7 @@ if (outputEl) {{
 <div class="prompt input_prompt">In&nbsp;[242]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig_7</span> <span class="o">=</span> <span class="n">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span><span class="n">f_val_features</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig_7</span> <span class="o">=</span> <span class="n">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">f_val_features</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="n">fig_7</span>
 </pre></div>
 
@@ -22299,7 +22322,7 @@ if (outputEl) {{
 <div class="prompt input_prompt">In&nbsp;[243]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig_2</span> <span class="o">=</span> <span class="n">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span><span class="n">f_val_features</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fig_2</span> <span class="o">=</span> <span class="n">plot_pca_dim</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">f_val_features</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="n">fig_2</span>
 </pre></div>
 
