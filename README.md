@@ -1,5 +1,9 @@
 # Exploring Airbnb Listings Datasets
 
+**What's the point of this project?**
+
+Arguably, one of the most important steps in a data science/machine learning project is communicating results. Why go through the trouble of doing all this work if findings and/or results aren't communicated with others? This project was created to practice wrangling a dataset and find interesting things in the data that can tell us something useful about the reality it represents. 
+
 Data Source: [insideairbnb.com](http://insideairbnb.com/get-the-data.html)
 
 [My blog post](https://medium.com/@patrickjohnyudeguzman/digging-for-gold-in-airbnb-datasets-2ae10f1a7054?sk=1cc9261994d82e321f77d1026a581e36) for this analysis.
@@ -9,6 +13,8 @@ Data Source: [insideairbnb.com](http://insideairbnb.com/get-the-data.html)
 Analysis can be found in the Airbnb.ipynb and/or the Airbnb.html files.
 
 ---
+
+## Project Description
 
 This is a simple data analysis & machine learning project. In this Jupyter Notebook, I analyzed the following 3 Airbnb listings datasets.
 
@@ -31,6 +37,14 @@ In the analysis, I explain my thought processes and decisions as I go. I hope yo
 
 ---
 
+## Repository Contents
+
+- Airbnb.ipynb : Jupyter notebook containing analysis
+- Airbnb.html : HTML-friendly version of the notebook above
+- .gitignore : used to prevent committing datasets and ipynb checkpoints to repo
+
+---
+
 ## Dependencies
 
 **Machine Learning**
@@ -50,3 +64,12 @@ In the analysis, I explain my thought processes and decisions as I go. I hope yo
 - math
 - collections
 - datetime
+
+---
+
+## Acknowledgements
+
+- insideairbnb.com for collecting the data
+- Airbnb for creating the data, and allowing it to be publicly accessible
+- Udacity for the project idea and the feedback
+- Contributers to the libraries I leveraged above 
