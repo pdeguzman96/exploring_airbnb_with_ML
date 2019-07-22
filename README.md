@@ -4,11 +4,11 @@
 
 Arguably, one of the most important steps in a data science/machine learning project is communicating results. Why go through the trouble of doing all this work if findings and/or results aren't communicated with others? This project was created to practice wrangling a dataset and find interesting things in the data that can tell us something useful about the reality it represents. 
 
+---
+
 Data Source: [insideairbnb.com](http://insideairbnb.com/get-the-data.html)
 
 [My blog post](https://medium.com/@patrickjohnyudeguzman/digging-for-gold-in-airbnb-datasets-2ae10f1a7054?sk=1cc9261994d82e321f77d1026a581e36) for this analysis.
-
----
 
 Analysis can be found in the Airbnb.ipynb and/or the Airbnb.html files.
 
